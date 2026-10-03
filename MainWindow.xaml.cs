@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ches_Патрушева.Classes;
 
 namespace Ches_Патрушева
 {
@@ -20,9 +21,18 @@ namespace Ches_Патрушева
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public List<Pawn> Pawns = new List<Pawn>();
+        public static MainWindow init;
         public MainWindow()
         {
             InitializeComponent();
+            init = this;
+        }
+
+        private void SelectTile(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
