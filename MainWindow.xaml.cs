@@ -34,5 +34,10 @@ namespace Ches_Патрушева
         {
 
         }
+
+        public void OnSelect(Pawn pawn)
+        {
+
+        }
     }
 }
