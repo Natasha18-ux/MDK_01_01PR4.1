@@ -23,6 +23,7 @@ namespace Ches_Патрушева
     {
 
         public List<Pawn> Pawns = new List<Pawn>();
+        public List<King> king = new List<King>();
         public static MainWindow init;
         public MainWindow()
         {
@@ -35,6 +36,29 @@ namespace Ches_Патрушева
                 Pawns.Add(new Pawn(i, 6, true));
             }
             CreateFigures();
+
+
+            king.Add(new King(3, 7, true));
+            CreateKing();
+        }
+
+        public void CreateKing()
+        {
+            foreach (King k in king)
+            {
+                k.Figure = new Grid()
+                {
+                    Width = 50,
+                    Height = 50
+                };
+
+                if (k.Black)
+                    k.Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/King.png")));
+                Grid.SetColumn(k.Figure, k.X);
+                Grid.SetRow(k.Figure, k.Y);
+                k.Figure.MouseDown += k.SelectFigure;
+                gameBorder.Children.Add(k.Figure);
+            }
         }
         public void CreateFigures()
         {
@@ -67,6 +91,10 @@ namespace Ches_Патрушева
             Pawn SelectPawn = MainWindow.init.Pawns.Find(x => x.Select == true);
             if(SelectPawn != null)
                 SelectPawn.Transform(X, Y);
+
+            King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
+            if (SelectKing != null)
+                SelectKing.Transform(X, Y);
         }
 
         public void OnSelect(Pawn pawn)
@@ -76,6 +104,16 @@ namespace Ches_Патрушева
                 if (Pawn != pawn)
                     if (Pawn.Select)
                         Pawn.SelectFigure(null, null);
+
+            }
+        }
+        public void OnSelect(King kiing)
+        {
+            foreach (King k in king)
+            {
+                if (k != kiing)
+                    if (k.Select)
+                        k.SelectFigure(null, null);
 
             }
         }
