@@ -16,6 +16,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -47,22 +48,13 @@
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="6" Grid.Row="1" MouseDown="SelectTile"/>
 
             <Grid Background="White" Width="50" Height="50" Grid.Column="0" Grid.Row="2" MouseDown="SelectTile"/>
-            <Grid Background="White" Width="50" Height="50" Grid.Column="3" Grid.Row="2" MouseDown="SelectTile"/>
+            <Grid Background="White" Width="50" Height="50" Grid.Column="2" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="White" Width="50" Height="50" Grid.Column="4" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="White" Width="50" Height="50" Grid.Column="6" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="1" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="3" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="5" Grid.Row="2" MouseDown="SelectTile"/>
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="7" Grid.Row="2" MouseDown="SelectTile"/>
-
-            <Grid Background="White" Width="50" Height="50" Grid.Column="1" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="White" Width="50" Height="50" Grid.Column="3" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="White" Width="50" Height="50" Grid.Column="5" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="White" Width="50" Height="50" Grid.Column="7" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="0" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="2" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="4" Grid.Row="3" MouseDown="SelectTile"/>
-            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="6" Grid.Row="3" MouseDown="SelectTile"/>
 
             <Grid Background="White" Width="50" Height="50" Grid.Column="1" Grid.Row="3" MouseDown="SelectTile"/>
             <Grid Background="White" Width="50" Height="50" Grid.Column="3" Grid.Row="3" MouseDown="SelectTile"/>
@@ -100,7 +92,15 @@
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="5" Grid.Row="6" MouseDown="SelectTile"/>
             <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="7" Grid.Row="6" MouseDown="SelectTile"/>
 
-        </Grid>
+            <Grid Background="White" Width="50" Height="50" Grid.Column="1" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="White" Width="50" Height="50" Grid.Column="3" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="White" Width="50" Height="50" Grid.Column="5" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="White" Width="50" Height="50" Grid.Column="7" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="0" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="2" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="4" Grid.Row="7" MouseDown="SelectTile"/>
+            <Grid Background="#FF9A6400" Width="50" Height="50" Grid.Column="6" Grid.Row="7" MouseDown="SelectTile"/>
 
+        </Grid>
     </Grid>
 </Window>

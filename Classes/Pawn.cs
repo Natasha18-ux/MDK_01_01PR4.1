@@ -81,6 +81,7 @@ namespace Ches_Патрушева.Classes
                 this.X = X;
                 this.Y = Y;
             }
+            SelectFigure(null, null);
         }
     }
 }
