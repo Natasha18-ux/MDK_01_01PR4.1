@@ -26,14 +26,13 @@ namespace Ches_Патрушева.Classes
             this.Y = Y;
             this.Black = Black;
         }
-        public void SelectFigure(object sender, MouseButtonEventArgs e)
+        public void SelectKing(object sender, MouseButtonEventArgs e)
         {
-            bool atack = false;
+            
             King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
             if (SelectKing != null)
             {
-                if (Black && Y - 1 == SelectKing.Y && (X == SelectKing.X - 1 || X == SelectKing.X + 1) ||
-                    !Black && Y + 1 == SelectKing.Y && (X == SelectKing.X - 1 || X == SelectKing.X + 1))
+                if (Black && Y - 1 == SelectKing.Y && (X == SelectKing.X - 1 || X == SelectKing.X + 1))
                 {
                     MainWindow.init.gameBorder.Children.Remove(Figure);
                     Grid.SetColumn(SelectKing.Figure, X);
@@ -42,7 +41,7 @@ namespace Ches_Патрушева.Classes
                     SelectKing.X = X;
                     SelectKing.Y = Y;
 
-                    SelectKing.SelectFigure(null, null);
+                    SelectKing.SelectKing(null, null);
                     return;
                 }
             }
@@ -67,7 +66,7 @@ namespace Ches_Патрушева.Classes
                 this.X = X;
                 this.Y = Y;
             }
-            SelectFigure(null, null);
+            SelectKing(null, null);
         }
     }
 

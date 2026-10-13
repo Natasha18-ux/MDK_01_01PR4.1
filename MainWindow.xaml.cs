@@ -27,6 +27,7 @@ namespace Ches_Патрушева
         public static MainWindow init;
         public MainWindow()
         {
+            //добавление фигур на доску
             InitializeComponent();
             init = this;
 
@@ -56,7 +57,7 @@ namespace Ches_Патрушева
                     k.Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/King.png")));
                 Grid.SetColumn(k.Figure, k.X);
                 Grid.SetRow(k.Figure, k.Y);
-                k.Figure.MouseDown += k.SelectFigure;
+                k.Figure.MouseDown += k.SelectKing;
                 gameBorder.Children.Add(k.Figure);
             }
         }
@@ -113,7 +114,7 @@ namespace Ches_Патрушева
             {
                 if (k != kiing)
                     if (k.Select)
-                        k.SelectFigure(null, null);
+                        k.SelectKing(null, null);
 
             }
         }

@@ -28,17 +28,33 @@ namespace Ches_Патрушева.Classes
 
         public void SelectFigure(object sender, MouseButtonEventArgs e)
         {
-            bool atack = false;
+            King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
+            if (SelectKing != null
+                && this.Black != SelectKing.Black
+                && Math.Abs(X - SelectKing.X) <= 1
+                && Math.Abs(Y - SelectKing.Y) <= 1)
+            {
+                MainWindow.init.gameBorder.Children.Remove(Figure);
+                MainWindow.init.Pawns.Remove(this);
+
+                Grid.SetColumn(SelectKing.Figure, X);
+                Grid.SetRow(SelectKing.Figure, Y);
+                SelectKing.X = X;
+                SelectKing.Y = Y;
+
+                SelectKing.SelectKing(null, null);
+                return;
+            }
+
             Pawn SelectPawn = MainWindow.init.Pawns.Find(x => x.Select == true);
             if(SelectPawn != null)
             {
                 if(Black && Y - 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1) ||
-                    !Black && Y + 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1))
+                    !Black && Y + 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1)) 
                 {
                     MainWindow.init.gameBorder.Children.Remove(Figure);
                     Grid.SetColumn(SelectPawn.Figure, X);
                     Grid.SetRow(SelectPawn.Figure, Y);
-
                     SelectPawn.X = X;
                     SelectPawn.Y = Y;
 
