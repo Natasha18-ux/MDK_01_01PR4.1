@@ -28,23 +28,6 @@ namespace Ches_Патрушева.Classes
         }
         public void SelectKing(object sender, MouseButtonEventArgs e)
         {
-            
-            King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
-            if (SelectKing != null)
-            {
-                if (Black && Y - 1 == SelectKing.Y && (X == SelectKing.X - 1 || X == SelectKing.X + 1))
-                {
-                    MainWindow.init.gameBorder.Children.Remove(Figure);
-                    Grid.SetColumn(SelectKing.Figure, X);
-                    Grid.SetRow(SelectKing.Figure, Y);
-
-                    SelectKing.X = X;
-                    SelectKing.Y = Y;
-
-                    SelectKing.SelectKing(null, null);
-                    return;
-                }
-            }
             MainWindow.init.OnSelect(this);
             if (Select)
             {
@@ -65,6 +48,16 @@ namespace Ches_Патрушева.Classes
                 Grid.SetRow(Figure, Y);
                 this.X = X;
                 this.Y = Y;
+            }
+            foreach (Pawn p in MainWindow.init.Pawns)
+            {
+                if (!p.Black                          
+                    && p.Y + 1 == this.Y             
+                    && (p.X - 1 == this.X || p.X + 1 == this.X)) 
+                {
+                    MessageBox.Show("Под шах зачем ?");
+                    break;
+                }
             }
             SelectKing(null, null);
         }

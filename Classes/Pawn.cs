@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -29,10 +30,7 @@ namespace Ches_Патрушева.Classes
         public void SelectFigure(object sender, MouseButtonEventArgs e)
         {
             King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
-            if (SelectKing != null
-                && this.Black != SelectKing.Black
-                && Math.Abs(X - SelectKing.X) <= 1
-                && Math.Abs(Y - SelectKing.Y) <= 1)
+            if (SelectKing != null && this.Black != SelectKing.Black && Math.Abs(X - SelectKing.X) <= 1 && Math.Abs(Y - SelectKing.Y) <= 1)
             {
                 MainWindow.init.gameBorder.Children.Remove(Figure);
                 MainWindow.init.Pawns.Remove(this);
@@ -96,6 +94,14 @@ namespace Ches_Патрушева.Classes
 
                 this.X = X;
                 this.Y = Y;
+            }
+            if (!this.Black)
+            {
+                King k = MainWindow.init.king[0];
+                if (k.Y == this.Y + 1 && (k.X == this.X - 1 || k.X == this.X + 1))
+                {
+                    MessageBox.Show("Шах!");
+                }
             }
             SelectFigure(null, null);
         }
