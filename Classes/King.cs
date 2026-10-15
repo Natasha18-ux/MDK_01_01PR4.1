@@ -33,13 +33,41 @@ namespace Ches_Патрушева.Classes
             {
                 Figure.Opacity = 1.0;   
                 this.Select = false;
+                MainWindow.init.ClearMarks();
+                return;
             }
+            if (this.Black == MainWindow.WhiteTurn)
+                return;
             else
             {
                 Figure.Opacity = 0.5;
                 this.Select = true;
+
+                //GJLCDTNRF
+                MainWindow.init.ClearMarks();
+
+                // зелёные — пустые
+                if (MainWindow.init.Free(this.X - 1, this.Y - 1)) MainWindow.init.MarkCell(this.X - 1, this.Y - 1, false);
+                if (MainWindow.init.Free(this.X, this.Y - 1)) MainWindow.init.MarkCell(this.X, this.Y - 1, false);
+                if (MainWindow.init.Free(this.X + 1, this.Y - 1)) MainWindow.init.MarkCell(this.X + 1, this.Y - 1, false);
+                if (MainWindow.init.Free(this.X - 1, this.Y)) MainWindow.init.MarkCell(this.X - 1, this.Y, false);
+                if (MainWindow.init.Free(this.X + 1, this.Y)) MainWindow.init.MarkCell(this.X + 1, this.Y, false);
+                if (MainWindow.init.Free(this.X - 1, this.Y + 1)) MainWindow.init.MarkCell(this.X - 1, this.Y + 1, false);
+                if (MainWindow.init.Free(this.X, this.Y + 1)) MainWindow.init.MarkCell(this.X, this.Y + 1, false);
+                if (MainWindow.init.Free(this.X + 1, this.Y + 1)) MainWindow.init.MarkCell(this.X + 1, this.Y + 1, false);
+
+                // красные — где враг
+                if (MainWindow.init.Foe(this.X - 1, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
+                if (MainWindow.init.Foe(this.X, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X, this.Y - 1, true);
+                if (MainWindow.init.Foe(this.X + 1, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
+                if (MainWindow.init.Foe(this.X - 1, this.Y, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y, true);
+                if (MainWindow.init.Foe(this.X + 1, this.Y, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y, true);
+                if (MainWindow.init.Foe(this.X - 1, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true);
+                if (MainWindow.init.Foe(this.X, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X, this.Y + 1, true);
+                if (MainWindow.init.Foe(this.X + 1, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y + 1, true);
             }
         }
+        
         public void Transform(int X, int Y)
         {
             if (Math.Abs(X - this.X) <= 1 && Math.Abs(Y - this.Y) <= 1)
@@ -49,6 +77,7 @@ namespace Ches_Патрушева.Classes
                 this.X = X;
                 this.Y = Y;
             }
+            MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
             foreach (Pawn p in MainWindow.init.Pawns)
             {
                 if (!p.Black                          
@@ -59,6 +88,7 @@ namespace Ches_Патрушева.Classes
                     break;
                 }
             }
+            MainWindow.init.ClearMarks();
             SelectKing(null, null);
         }
     }

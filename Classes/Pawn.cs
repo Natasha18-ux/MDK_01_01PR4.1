@@ -41,6 +41,7 @@ namespace Ches_Патрушева.Classes
                 SelectKing.Y = Y;
 
                 SelectKing.SelectKing(null, null);
+                MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
                 return;
             }
 
@@ -57,6 +58,7 @@ namespace Ches_Патрушева.Classes
                     SelectPawn.Y = Y;
 
                     SelectPawn.SelectFigure(null, null);
+                    MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
                     return;
                 }
             }
@@ -70,13 +72,52 @@ namespace Ches_Патрушева.Classes
                     Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/Pawn.png")));
 
                 this.Select = false;
+                MainWindow.init.ClearMarks();
+                return;
             }
-            else
-            {
-                this.Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/Pawn (select).png")));
-                this.Select = true;
+            if (this.Black == MainWindow.WhiteTurn)
+                return;
+
+            // 5) Выделение
+            MainWindow.init.OnSelect(this);
+            this.Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/Pawn (select).png")));
+            this.Select = true;
+            MainWindow.init.ClearMarks();
+
+
+
+
+                //GKCDTNRF
+                if (Black)
+                {
+                    // Чёрная пешка идёт ВВЕРХ (Y уменьшается)
+                    if (MainWindow.init.Free(this.X, this.Y - 1))
+                    {
+                        MainWindow.init.MarkCell(this.X, this.Y - 1, false);
+                        if (this.Y == 6 && MainWindow.init.Free(this.X, this.Y - 2))
+                            MainWindow.init.MarkCell(this.X, this.Y - 2, false);
+                    }
+                    if (MainWindow.init.Foe(this.X - 1, this.Y - 1, true))
+                        MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
+                    if (MainWindow.init.Foe(this.X + 1, this.Y - 1, true))
+                        MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
+                }
+                else
+                {
+                    // Белая пешка идёт ВНИЗ (Y увеличивается)
+                    if (MainWindow.init.Free(this.X, this.Y + 1))
+                    {
+                        MainWindow.init.MarkCell(this.X, this.Y + 1, false);
+                        if (this.Y == 1 && MainWindow.init.Free(this.X, this.Y + 2))
+                            MainWindow.init.MarkCell(this.X, this.Y + 2, false);
+                    }
+                    if (MainWindow.init.Foe(this.X - 1, this.Y + 1, false))
+                        MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true);
+                    if (MainWindow.init.Foe(this.X + 1, this.Y + 1, false))
+                        MainWindow.init.MarkCell(this.X + 1, this.Y + 1, true);
+                }
             }
-        }
+        
 
         public void Transform(int X, int Y)
         {
@@ -86,6 +127,8 @@ namespace Ches_Патрушева.Classes
                 return;
             }
 
+            bool moved = false;
+
             if (Black && ((this.Y == 6 && this.Y - 2 == Y) || this.Y - 1 == Y) ||
                 !Black && ((this.Y == 1 && this.Y + 2 == Y) || this.Y + 1 == Y))
             {
@@ -94,7 +137,10 @@ namespace Ches_Патрушева.Classes
 
                 this.X = X;
                 this.Y = Y;
+                moved = true;
             }
+            if (moved)
+                MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
             if (!this.Black)
             {
                 King k = MainWindow.init.king[0];
@@ -103,6 +149,7 @@ namespace Ches_Патрушева.Classes
                     MessageBox.Show("Шах!");
                 }
             }
+            MainWindow.init.ClearMarks();
             SelectFigure(null, null);
         }
     }

@@ -21,10 +21,11 @@ namespace Ches_Патрушева
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public List<Pawn> Pawns = new List<Pawn>();
         public List<King> king = new List<King>();
         public static MainWindow init;
+
+        public static bool WhiteTurn = true;
         public MainWindow()
         {
             //добавление фигур на доску
@@ -98,25 +99,74 @@ namespace Ches_Патрушева
                 SelectKing.Transform(X, Y);
         }
 
-        public void OnSelect(Pawn pawn)
+        public void OnSelect(object next)
         {
-            foreach (Pawn Pawn in Pawns)
+            foreach (Pawn p in Pawns)
             {
-                if (Pawn != pawn)
-                    if (Pawn.Select)
-                        Pawn.SelectFigure(null, null);
-
+                if (p != next && p.Select)
+                    p.SelectFigure(null, null);
             }
-        }
-        public void OnSelect(King kiing)
-        {
+
             foreach (King k in king)
             {
-                if (k != kiing)
-                    if (k.Select)
-                        k.SelectKing(null, null);
-
+                if (k != next && k.Select)
+                    k.SelectKing(null, null);
             }
         }
+       
+
+        public void MarkCell(int x, int y, bool red)
+        {
+            Rectangle r = new Rectangle();
+            r.Width = 50;
+            r.Height = 50;
+            r.Tag = "hl";                // метка, чтобы потом найти
+            r.IsHitTestVisible = false;  // чтобы клик проходил сквозь квадрат
+
+            if (red)
+                r.Fill = new SolidColorBrush(Color.FromArgb(120, 255, 0, 0)); // красный полупрозрачный
+            else
+                r.Fill = new SolidColorBrush(Color.FromArgb(120, 0, 255, 0)); // зелёный полупрозрачный
+
+            Grid.SetColumn(r, x);
+            Grid.SetRow(r, y);
+            gameBorder.Children.Add(r);
+        }
+
+        // Убрать все подсветки с доски
+        public void ClearMarks()
+        {
+            for (int i = gameBorder.Children.Count - 1; i >= 0; i--)
+            {
+                Rectangle r = gameBorder.Children[i] as Rectangle;
+                if (r != null && (string)r.Tag == "hl")
+                    gameBorder.Children.RemoveAt(i);
+            }
+        }
+
+        // Пустая ли клетка (x, y)?
+        public bool Free(int x, int y)
+        {
+            foreach (Pawn p in Pawns) 
+                if (p.X == x && p.Y == y) 
+                    return false;
+            foreach (King k in king) 
+                if (k.X == x && k.Y == y) 
+                    return false;
+            return true;
+        }
+
+        // Стоит ли на клетке (x, y) враг, если мой цвет myBlack?
+        public bool Foe(int x, int y, bool myBlack)
+        {
+            foreach (Pawn p in Pawns) 
+                if (p.X == x && p.Y == y) 
+                    return p.Black != myBlack;
+            foreach (King k in king) 
+                if (k.X == x && k.Y == y) 
+                    return k.Black != myBlack;
+            return false;
+        }
     }
+    
 }
