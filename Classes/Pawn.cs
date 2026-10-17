@@ -30,9 +30,9 @@ namespace Ches_Патрушева.Classes
         public void SelectFigure(object sender, MouseButtonEventArgs e)
         {
             King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
-            if (SelectKing != null && this.Black != SelectKing.Black && Math.Abs(X - SelectKing.X) <= 1 && Math.Abs(Y - SelectKing.Y) <= 1)
+            if (SelectKing != null && this.Black != SelectKing.Black && Math.Abs(X - SelectKing.X) <= 1 && Math.Abs(Y - SelectKing.Y) <= 1) //диапазон атаки короля
             {
-                MainWindow.init.gameBorder.Children.Remove(Figure);
+                MainWindow.init.gameBorder.Children.Remove(Figure); // удаление пешки
                 MainWindow.init.Pawns.Remove(this);
 
                 Grid.SetColumn(SelectKing.Figure, X);
@@ -49,9 +49,9 @@ namespace Ches_Патрушева.Classes
             if(SelectPawn != null)
             {
                 if(Black && Y - 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1) ||
-                    !Black && Y + 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1)) 
+                    !Black && Y + 1 == SelectPawn.Y && (X == SelectPawn.X - 1 || X == SelectPawn.X + 1)) // диапазон атаки пешки
                 {
-                    MainWindow.init.gameBorder.Children.Remove(Figure);
+                    MainWindow.init.gameBorder.Children.Remove(Figure);  //удаление пешки
                     Grid.SetColumn(SelectPawn.Figure, X);
                     Grid.SetRow(SelectPawn.Figure, Y);
                     SelectPawn.X = X;
@@ -78,7 +78,7 @@ namespace Ches_Патрушева.Classes
             if (this.Black == MainWindow.WhiteTurn)
                 return;
 
-            // 5) Выделение
+            
             MainWindow.init.OnSelect(this);
             this.Figure.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/images/Pawn (select).png")));
             this.Select = true;
@@ -87,33 +87,35 @@ namespace Ches_Патрушева.Classes
 
 
 
-                //GKCDTNRF
+                //ПОДСВЕТКА
                 if (Black)
                 {
-                    // Чёрная пешка идёт ВВЕРХ (Y уменьшается)
+                    //черные
                     if (MainWindow.init.Free(this.X, this.Y - 1))
                     {
-                        MainWindow.init.MarkCell(this.X, this.Y - 1, false);
-                        if (this.Y == 6 && MainWindow.init.Free(this.X, this.Y - 2))
-                            MainWindow.init.MarkCell(this.X, this.Y - 2, false);
-                    }
-                    if (MainWindow.init.Foe(this.X - 1, this.Y - 1, true))
-                        MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
-                    if (MainWindow.init.Foe(this.X + 1, this.Y - 1, true))
-                        MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
+                        MainWindow.init.MarkCell(this.X, this.Y - 1, false); //подсвет на одну клетку вперед
+                    if (this.Y == 6 && MainWindow.init.Free(this.X, this.Y - 2))
+                            MainWindow.init.MarkCell(this.X, this.Y - 2, false); //подсвет на одну клетку вперед
+                }
+                    // проверка врагов
+                    if (MainWindow.init.Chack(this.X - 1, this.Y - 1, true)) // проверка левой диоганали
+                    MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
+                    if (MainWindow.init.Chack(this.X + 1, this.Y - 1, true)) // проверка правой диоганали
+                    MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
                 }
                 else
                 {
-                    // Белая пешка идёт ВНИЗ (Y увеличивается)
+                    //белые
                     if (MainWindow.init.Free(this.X, this.Y + 1))
                     {
-                        MainWindow.init.MarkCell(this.X, this.Y + 1, false);
+                        MainWindow.init.MarkCell(this.X, this.Y + 1, false); //подсвет на одну клетку вперед
                         if (this.Y == 1 && MainWindow.init.Free(this.X, this.Y + 2))
-                            MainWindow.init.MarkCell(this.X, this.Y + 2, false);
+                            MainWindow.init.MarkCell(this.X, this.Y + 2, false);  //подсвет на две клетки вперед
                     }
-                    if (MainWindow.init.Foe(this.X - 1, this.Y + 1, false))
-                        MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true);
-                    if (MainWindow.init.Foe(this.X + 1, this.Y + 1, false))
+                    //проверка врагов
+                    if (MainWindow.init.Chack(this.X - 1, this.Y + 1, false)) //проверка левой диоганали
+                        MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true); // нашли врага (красный)
+                    if (MainWindow.init.Chack(this.X + 1, this.Y + 1, false)) // проверка правой диогнали
                         MainWindow.init.MarkCell(this.X + 1, this.Y + 1, true);
                 }
             }
@@ -127,7 +129,7 @@ namespace Ches_Патрушева.Classes
                 return;
             }
 
-            bool moved = false;
+            bool moved = false;  // переменая для переключения ходов
 
             if (Black && ((this.Y == 6 && this.Y - 2 == Y) || this.Y - 1 == Y) ||
                 !Black && ((this.Y == 1 && this.Y + 2 == Y) || this.Y + 1 == Y))
@@ -137,10 +139,10 @@ namespace Ches_Патрушева.Classes
 
                 this.X = X;
                 this.Y = Y;
-                moved = true;
+                moved = true; // фиксация кода
             }
-            if (moved)
-                MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
+            if (moved) 
+                MainWindow.WhiteTurn = !MainWindow.WhiteTurn;  //больше не ход белых
             if (!this.Black)
             {
                 King k = MainWindow.init.king[0];

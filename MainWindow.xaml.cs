@@ -25,7 +25,7 @@ namespace Ches_Патрушева
         public List<King> king = new List<King>();
         public static MainWindow init;
 
-        public static bool WhiteTurn = true;
+        public static bool WhiteTurn = true; // ход белых
         public MainWindow()
         {
             //добавление фигур на доску
@@ -44,6 +44,7 @@ namespace Ches_Патрушева
             CreateKing();
         }
 
+        //Создание короля и размешение его на доску
         public void CreateKing()
         {
             foreach (King k in king)
@@ -62,6 +63,8 @@ namespace Ches_Патрушева
                 gameBorder.Children.Add(k.Figure);
             }
         }
+
+        //создание пешек
         public void CreateFigures()
         {
             foreach (Pawn Pawn in Pawns)
@@ -84,16 +87,19 @@ namespace Ches_Патрушева
             }
         }
 
+        //Перемешение фигур
         private void SelectTile(object sender, MouseButtonEventArgs e)
         {
             Grid Tile = sender as Grid;
             int X = Grid.GetColumn(Tile);
             int Y = Grid.GetRow(Tile);
 
+            //если выбрана пешка перейти к методу ее перемешения
             Pawn SelectPawn = MainWindow.init.Pawns.Find(x => x.Select == true);
             if(SelectPawn != null)
                 SelectPawn.Transform(X, Y);
 
+            //если выбран король перейти к методу его перемешения
             King SelectKing = MainWindow.init.king.Find(x => x.Select == true);
             if (SelectKing != null)
                 SelectKing.Transform(X, Y);
@@ -101,12 +107,14 @@ namespace Ches_Патрушева
 
         public void OnSelect(object next)
         {
+            //Нельзя выделять одновременно 2 пешки
             foreach (Pawn p in Pawns)
             {
                 if (p != next && p.Select)
                     p.SelectFigure(null, null);
             }
 
+            //пешка и король не могут быть веделены одновременно
             foreach (King k in king)
             {
                 if (k != next && k.Select)
@@ -114,26 +122,26 @@ namespace Ches_Патрушева
             }
         }
        
-
+        //наложение подсветки
         public void MarkCell(int x, int y, bool red)
         {
             Rectangle r = new Rectangle();
             r.Width = 50;
             r.Height = 50;
-            r.Tag = "hl";                // метка, чтобы потом найти
-            r.IsHitTestVisible = false;  // чтобы клик проходил сквозь квадрат
+            r.Tag = "hl";                // метка чотб потом найти квадраты и убрать
+            r.IsHitTestVisible = false;  // чтоб при клике не задействовало наложенный квадрат
 
             if (red)
-                r.Fill = new SolidColorBrush(Color.FromArgb(120, 255, 0, 0)); // красный полупрозрачный
+                r.Fill = new SolidColorBrush(Color.FromArgb(120, 255, 0, 0)); 
             else
-                r.Fill = new SolidColorBrush(Color.FromArgb(120, 0, 255, 0)); // зелёный полупрозрачный
+                r.Fill = new SolidColorBrush(Color.FromArgb(120, 0, 255, 0)); 
 
             Grid.SetColumn(r, x);
             Grid.SetRow(r, y);
             gameBorder.Children.Add(r);
         }
 
-        // Убрать все подсветки с доски
+        // Поиск по метке и удаление
         public void ClearMarks()
         {
             for (int i = gameBorder.Children.Count - 1; i >= 0; i--)
@@ -144,7 +152,7 @@ namespace Ches_Патрушева
             }
         }
 
-        // Пустая ли клетка (x, y)?
+        //Метод проверки свободных клеток
         public bool Free(int x, int y)
         {
             foreach (Pawn p in Pawns) 
@@ -156,8 +164,8 @@ namespace Ches_Патрушева
             return true;
         }
 
-        // Стоит ли на клетке (x, y) враг, если мой цвет myBlack?
-        public bool Foe(int x, int y, bool myBlack)
+        //Проверка есть ли враг
+        public bool Chack(int x, int y, bool myBlack)
         {
             foreach (Pawn p in Pawns) 
                 if (p.X == x && p.Y == y) 

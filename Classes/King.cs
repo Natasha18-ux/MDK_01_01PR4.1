@@ -40,34 +40,67 @@ namespace Ches_Патрушева.Classes
                 return;
             else
             {
+                // прозрачность
                 Figure.Opacity = 0.5;
                 this.Select = true;
 
                 //GJLCDTNRF
                 MainWindow.init.ClearMarks();
 
-                // зелёные — пустые
-                if (MainWindow.init.Free(this.X - 1, this.Y - 1)) MainWindow.init.MarkCell(this.X - 1, this.Y - 1, false);
-                if (MainWindow.init.Free(this.X, this.Y - 1)) MainWindow.init.MarkCell(this.X, this.Y - 1, false);
-                if (MainWindow.init.Free(this.X + 1, this.Y - 1)) MainWindow.init.MarkCell(this.X + 1, this.Y - 1, false);
-                if (MainWindow.init.Free(this.X - 1, this.Y)) MainWindow.init.MarkCell(this.X - 1, this.Y, false);
-                if (MainWindow.init.Free(this.X + 1, this.Y)) MainWindow.init.MarkCell(this.X + 1, this.Y, false);
-                if (MainWindow.init.Free(this.X - 1, this.Y + 1)) MainWindow.init.MarkCell(this.X - 1, this.Y + 1, false);
-                if (MainWindow.init.Free(this.X, this.Y + 1)) MainWindow.init.MarkCell(this.X, this.Y + 1, false);
-                if (MainWindow.init.Free(this.X + 1, this.Y + 1)) MainWindow.init.MarkCell(this.X + 1, this.Y + 1, false);
+                //лвд
+                if (MainWindow.init.Free(this.X - 1, this.Y - 1)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y - 1, false);
+                //пвд
+                if (MainWindow.init.Free(this.X + 1, this.Y - 1))
+                    MainWindow.init.MarkCell(this.X + 1, this.Y - 1, false);
+                //верх
+                if (MainWindow.init.Free(this.X, this.Y - 1)) 
+                    MainWindow.init.MarkCell(this.X, this.Y - 1, false);
+                //лево
+                if (MainWindow.init.Free(this.X - 1, this.Y)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y, false);
+                //право
+                if (MainWindow.init.Free(this.X + 1, this.Y)) 
+                    MainWindow.init.MarkCell(this.X + 1, this.Y, false);
+                //лнд
+                if (MainWindow.init.Free(this.X - 1, this.Y + 1)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y + 1, false);
+                //пнд
+                if (MainWindow.init.Free(this.X + 1, this.Y + 1))
+                    MainWindow.init.MarkCell(this.X + 1, this.Y + 1, false);
+                //низ
+                if (MainWindow.init.Free(this.X, this.Y + 1)) 
+                    MainWindow.init.MarkCell(this.X, this.Y + 1, false);
+                
 
-                // красные — где враг
-                if (MainWindow.init.Foe(this.X - 1, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
-                if (MainWindow.init.Foe(this.X, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X, this.Y - 1, true);
-                if (MainWindow.init.Foe(this.X + 1, this.Y - 1, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
-                if (MainWindow.init.Foe(this.X - 1, this.Y, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y, true);
-                if (MainWindow.init.Foe(this.X + 1, this.Y, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y, true);
-                if (MainWindow.init.Foe(this.X - 1, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true);
-                if (MainWindow.init.Foe(this.X, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X, this.Y + 1, true);
-                if (MainWindow.init.Foe(this.X + 1, this.Y + 1, this.Black)) MainWindow.init.MarkCell(this.X + 1, this.Y + 1, true);
+                // Поиск врага
+                if (MainWindow.init.Chack(this.X - 1, this.Y - 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y - 1, true);
+
+                if (MainWindow.init.Chack(this.X, this.Y - 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X, this.Y - 1, true);
+
+                if (MainWindow.init.Chack(this.X + 1, this.Y - 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X + 1, this.Y - 1, true);
+
+                if (MainWindow.init.Chack(this.X - 1, this.Y, this.Black)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y, true);
+
+                if (MainWindow.init.Chack(this.X + 1, this.Y, this.Black)) 
+                    MainWindow.init.MarkCell(this.X + 1, this.Y, true);
+
+                if (MainWindow.init.Chack(this.X - 1, this.Y + 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X - 1, this.Y + 1, true);
+
+                if (MainWindow.init.Chack(this.X, this.Y + 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X, this.Y + 1, true);
+
+                if (MainWindow.init.Chack(this.X + 1, this.Y + 1, this.Black)) 
+                    MainWindow.init.MarkCell(this.X + 1, this.Y + 1, true);
             }
         }
         
+        // ход короля
         public void Transform(int X, int Y)
         {
             if (Math.Abs(X - this.X) <= 1 && Math.Abs(Y - this.Y) <= 1)
@@ -78,16 +111,6 @@ namespace Ches_Патрушева.Classes
                 this.Y = Y;
             }
             MainWindow.WhiteTurn = !MainWindow.WhiteTurn;
-            foreach (Pawn p in MainWindow.init.Pawns)
-            {
-                if (!p.Black                          
-                    && p.Y + 1 == this.Y             
-                    && (p.X - 1 == this.X || p.X + 1 == this.X)) 
-                {
-                    MessageBox.Show("Под шах зачем ?");
-                    break;
-                }
-            }
             MainWindow.init.ClearMarks();
             SelectKing(null, null);
         }
